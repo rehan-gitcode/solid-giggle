@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wedding Card Editor</title>
+    <!-- <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .sidebar {
+            width: 300px;
+            height: 500px;
+            background: #fff;
+            border-right: 1px solid #e0e0e0;
+            padding: 40px 20px 20px 20px;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content {
+            background: #fffefe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 400px;
+            height: 500px;
+            border: 4px solid black;
+        }
+
+        .canvas {
+            width: 400px;
+            height: 500px;
+            position: relative;
+            background: #f9f9f9;
+            cursor: crosshair;
+        }
+
+        .canvas img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .text-element {
+            position: absolute;
+            cursor: move;
+            user-select: none;
+            padding: 5px;
+            border: 2px dashed transparent;
+            min-width: 20px;
+            min-height: 20px;
+            word-wrap: break-word;
+        }
+
+        .text-element.selected {
+            border-color: #007bff;
+            background: rgba(0, 123, 255, 0.1);
+        }
+
+        .text-element:hover {
+            border-color: #007bff;
+        }
+
+        .controls-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .controls-section:last-child {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: #007bff;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+            font-size: 13px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #545b62;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload input[type=file] {
+            position: absolute;
+            left: -9999px;
+        }
+
+        .file-upload-btn {
+            width: 100%;
+            padding: 12px;
+            background: #f8f9fa;
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-btn:hover {
+            background: #e9ecef;
+        }
+
+        .color-input {
+            width: 50px;
+            height: 35px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .alignment-buttons {
+            display: flex;
+            gap: 5px;
+        }
+
+        .alignment-btn {
+            width: 35px;
+            height: 35px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .alignment-btn.active {
+            background: #007bff;
+            color: white;
+            border-color: #007bff;
+        }
+
+        .alignment-btn:hover {
+            border-color: #007bff;
+        }
+
+        .toolbar {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .canvas-bg-upload {
+            margin-bottom: 15px;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .preview-info {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        @media (max-width:768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: 200px;
+                order: 2;
+            }
+
+            .main-content {
+                height: calc(100vh - 200px);
+                order: 1;
+            }
+
+            .canvas {
+                width: 300px;
+                height: 450px;
+            }
+        }
+
+        .card-thumbnails-row {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 18px;
+            overflow-x: hidden;
+            padding-bottom: 6px;
+        }
+
+        .card-thumbnail {
+            width: 90px;
+            height: 120px;
+            object-fit: cover;
+            border: 4px solid #fbf1f1;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            flex-shrink: 0;
+        }
+
+        .card-thumbnail.selected {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+        }
+
+        .cards {
+            display: flex;
+            flex-direction: column;
+            margin-right: 60px;
+            height: 400px;
+            width: 120px;
+           overflow-y: auto;         /* vertical scroll */
+           overflow-x: hidden;
+            scroll-behavior: smooth;
+        } -->
+    <link rel="stylesheet" href="cardediting.css">
+</head>
+
+<body>
+
+    <!-- Left thumbnails column -->
+    <div class="cards">
+        <div class="section-title">ALL CARDS</div>
+        <div id="card-thumbnails" class="card-thumbnails-row"></div>
+    </div>
+
+    <div class="main-content">
+        <div class="canvas-container">
+            <div class="canvas" id="canvas">
+                <div class="preview-info">400 x 600 px</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="controls-section">
+            <div class="section-title">Background Image</div>
+            <div class="canvas-bg-upload">
+                <div class="file-upload">
+                    <input type="file" id="bg-upload" accept="image/*">
+                    <label for="bg-upload" class="file-upload-btn">📁 Upload Background Image</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls-section">
+            <div class="section-title">Add Text</div>
+            <div class="form-group">
+                <textarea id="text-input" class="form-control" placeholder="Enter your text here..."
+                    rows="3"></textarea>
+            </div>
+            <button id="add-text-btn" class="btn btn-primary" style="width:100%;">Add Text</button>
+        </div>
+
+        <div class="controls-section" id="text-controls" style="display:none;">
+            <div class="section-title">Text Properties</div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Font Family</label>
+                    <select id="font-family" class="form-control">
+                        <option value="Arial">Arial</option>
+                        <option value="Times New Roman">Times New Roman</option>
+                        <option value="Helvetica">Helvetica</option>
+                        <option value="Georgia">Georgia</option>
+                        <option value="Verdana">Verdana</option>
+                        <option value="Impact">Impact</option>
+                        <option value="Comic Sans MS">Comic Sans MS</option>
+                        <option value="Trebuchet MS">Trebuchet MS</option>
+                        <option value="Palatino">Palatino</option>
+                        <option value="Garamond">Garamond</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Font Size</label>
+                    <input type="number" id="font-size" class="form-control" value="16" min="8" max="100">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label class="form-label">Color</label>
+                    <input type="color" id="text-color" class="color-input" value="#000000">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Line Height</label>
+                    <input type="number" id="line-height" class="form-control" value="1.2" min="0.5" max="3" step="0.1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Text Alignment</label>
+                <div class="alignment-buttons">
+                    <button class="alignment-btn" data-align="left">⬅</button>
+                    <button class="alignment-btn active" data-align="center">⬄</button>
+                    <button class="alignment-btn" data-align="right">➡</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Font Weight</label>
+                <select id="font-weight" class="form-control">
+                    <option value="normal">Normal</option>
+                    <option value="bold">Bold</option>
+                    <option value="lighter">Lighter</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                    <option value="300">300</option>
+                    <option value="400">400</option>
+                    <option value="500">500</option>
+                    <option value="600">600</option>
+                    <option value="700">700</option>
+                    <option value="800">800</option>
+                    <option value="900">900</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Language/Direction</label>
+                <select id="text-direction" class="form-control">
+                    <option value="ltr">Left to Right (English)</option>
+                    <option value="rtl">Right to Left (Arabic/Hebrew)</option>
+                </select>
+            </div>
+
+            <button id="delete-text-btn" class="btn btn-secondary" style="width:100%; margin-top:10px;">Delete Selected
+                Text</button>
+        </div>
+
+        <div class="download-section">
+            <button id="download-btn" class="btn btn-success" style="width:100%;">📥 Download Card</button>
+        </div>
+    </div>
+   
+
+    <!-- html2canvas CDN (needed for download) --> 
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+    <script>
+        class WeddingCardEditor {
+            constructor() {
+                this.canvas = document.getElementById('canvas');
+                this.selectedElement = null;
+                this.isDragging = false;
+                this.offset = { x: 0, y: 0 };
+                this.textCounter = 0;
+
+                // multiple cards
+                this.cardsArray = []; // background dataURLs (kept for thumbnails)
+                this.currentCardIndex = -1;
+                this.cardThumbnails = document.getElementById('card-thumbnails');
+
+                // The actual state per card
+                // Each state: { bg: dataURL, texts: [ { id, text, left, top, fontFamily, fontSize, color, textAlign, lineHeight, fontWeight, dir, zIndex } ] }
+                this.cardStates = [];
+
+                // listeners
+                document.getElementById('bg-upload').addEventListener('change', (e) => this.handleBackgroundUpload(e));
+                document.getElementById('add-text-btn').addEventListener('click', () => this.addText());
+                document.getElementById('font-family').addEventListener('change', (e) => this.updateTextProperty('fontFamily', e.target.value));
+                document.getElementById('font-size').addEventListener('input', (e) => this.updateTextProperty('fontSize', e.target.value + 'px'));
+                document.getElementById('text-color').addEventListener('change', (e) => this.updateTextProperty('color', e.target.value));
+                document.getElementById('line-height').addEventListener('input', (e) => this.updateTextProperty('lineHeight', e.target.value));
+                document.getElementById('font-weight').addEventListener('change', (e) => this.updateTextProperty('fontWeight', e.target.value));
+                document.getElementById('text-direction').addEventListener('change', (e) => this.updateTextProperty('direction', e.target.value));
+                document.querySelectorAll('.alignment-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.alignment-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.updateTextProperty('textAlign', btn.dataset.align);
+                    });
+                });
+                document.getElementById('delete-text-btn').addEventListener('click', () => this.deleteSelectedText());
+                document.getElementById('download-btn').addEventListener('click', () => this.downloadCard());
+
+                this.canvas.addEventListener('click', (e) => {
+                    if (e.target === this.canvas) this.deselectAll();
+                });
+
+                // Prevent selection when dragging inside canvas
+                this.canvas.addEventListener('mousedown', (e) => {
+                    // if click on canvas background, deselect
+                    if (e.target === this.canvas) this.deselectAll();
+                });
+            }
+
+            handleBackgroundUpload(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const dataURL = e.target.result;
+                    // Save previous card state first
+                    if (this.currentCardIndex !== -1) this.saveCurrentCardState();
+
+                    // Add new card
+                    this.cardsArray.push(dataURL);
+                    const newState = { bg: dataURL, texts: [] };
+                    this.cardStates.push(newState);
+                    this.currentCardIndex = this.cardStates.length - 1;
+
+                    this.updateCardThumbnails();
+                    this.loadCardState(this.currentCardIndex);
+                };
+                reader.readAsDataURL(file);
+                // reset input so same file can be reselected later if needed
+                event.target.value = '';
+            }
+
+            updateCardThumbnails() {
+                this.cardThumbnails.innerHTML = '';
+                this.cardStates.forEach((state, idx) => {
+                    const img = document.createElement('img');
+                    img.src = state.bg || this.cardsArray[idx] || '';
+                    img.className = 'card-thumbnail' + (idx === this.currentCardIndex ? ' selected' : '');
+                    img.onclick = () => {
+                        if (this.currentCardIndex === idx) return;
+                        // save current, then switch
+                        if (this.currentCardIndex !== -1) this.saveCurrentCardState();
+                        this.currentCardIndex = idx;
+                        this.updateCardThumbnails();
+                        this.loadCardState(idx);
+                    };
+                    this.cardThumbnails.appendChild(img);
+                });
+            }
+
+            setCardBackgroundFromState(state) {
+                // remove existing bg img
+                const existingImg = this.canvas.querySelector('img');
+                if (existingImg) existingImg.remove();
+
+                if (state && state.bg) {
+                    const img = document.createElement('img');
+                    img.src = state.bg;
+                    img.style.position = 'absolute';
+                    img.style.top = '0';
+                    img.style.left = '0';
+                    img.style.zIndex = '0';
+                    img.setAttribute('draggable', 'false');
+                    this.canvas.insertBefore(img, this.canvas.firstChild);
+                }
+            }
+
+            addText() {
+                const textInput = document.getElementById('text-input');
+                const text = textInput.value.trim();
+                if (!text) { alert('Please enter some text first!'); return; }
+
+                this.textCounter++;
+                const id = 'txt_' + Date.now() + '_' + Math.floor(Math.random() * 1000);
+                const textElement = document.createElement('div');
+                textElement.className = 'text-element';
+                textElement.textContent = text;
+                textElement.dataset.id = id;
+                textElement.style.left = '50px';
+                textElement.style.top = (50 + this.textCounter * 30) + 'px';
+                textElement.style.fontFamily = 'Arial';
+                textElement.style.fontSize = '16px';
+                textElement.style.color = '#000000';
+                textElement.style.textAlign = 'center';
+                textElement.style.lineHeight = '1.2';
+                textElement.style.zIndex = '10';
+                textElement.setAttribute('draggable', 'false');
+
+                this.canvas.appendChild(textElement);
+                this.selectElement(textElement);
+                this.makeDraggable(textElement);
+
+                // persist to state
+                if (this.currentCardIndex === -1) {
+                    // no background/card yet: create a blank card state to store text
+                    const newState = { bg: null, texts: [] };
+                    this.cardStates.push(newState);
+                    this.currentCardIndex = this.cardStates.length - 1;
+                    this.updateCardThumbnails();
+                }
+                this.saveCurrentCardState();
+
+                // Clear input
+                textInput.value = '';
+            }
+
+            makeDraggable(element) {
+                element.addEventListener('mousedown', (e) => {
+                    this.selectElement(element);
+                    this.isDragging = true;
+
+                    const rect = element.getBoundingClientRect();
+                    const canvasRect = this.canvas.getBoundingClientRect();
+
+                    this.offset.x = e.clientX - rect.left;
+                    this.offset.y = e.clientY - rect.top;
+
+                    const handleMouseMove = (ev) => {
+                        if (!this.isDragging) return;
+
+                        const canvasRect = this.canvas.getBoundingClientRect();
+                        const x = ev.clientX - canvasRect.left - this.offset.x;
+                        const y = ev.clientY - canvasRect.top - this.offset.y;
+
+                        element.style.left = Math.max(0, Math.min(x, this.canvas.clientWidth - element.clientWidth)) + 'px';
+                        element.style.top = Math.max(0, Math.min(y, this.canvas.clientHeight - element.clientHeight)) + 'px';
+                    };
+
+                    const handleMouseUp = () => {
+                        this.isDragging = false;
+                        document.removeEventListener('mousemove', handleMouseMove);
+                        document.removeEventListener('mouseup', handleMouseUp);
+                        // Save position after drag
+                        this.saveCurrentCardState();
+                    };
+
+                    document.addEventListener('mousemove', handleMouseMove);
+                    document.addEventListener('mouseup', handleMouseUp);
+                    e.preventDefault();
+                });
+
+                // allow double click to edit text (optional convenience)
+                element.addEventListener('dblclick', (e) => {
+                    const newText = prompt('Edit text:', element.textContent);
+                    if (newText !== null) {
+                        element.textContent = newText;
+                        this.saveCurrentCardState();
+                    }
+                });
+
+                // click selects element
+                element.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.selectElement(element);
+                });
+            }
+
+            selectElement(element) {
+                this.deselectAll();
+                this.selectedElement = element;
+                element.classList.add('selected');
+                this.showTextControls();
+                this.updateControlsFromElement(element);
+            }
+
+            deselectAll() {
+                document.querySelectorAll('.text-element').forEach(el => el.classList.remove('selected'));
+                this.selectedElement = null;
+                this.hideTextControls();
+            }
+
+            showTextControls() { document.getElementById('text-controls').style.display = 'block'; }
+            hideTextControls() { document.getElementById('text-controls').style.display = 'none'; }
+
+            updateTextProperty(property, value) {
+                if (!this.selectedElement) return;
+                switch (property) {
+                    case 'fontFamily': this.selectedElement.style.fontFamily = value; break;
+                    case 'fontSize': this.selectedElement.style.fontSize = value; break;
+                    case 'color': this.selectedElement.style.color = value; break;
+                    case 'lineHeight': this.selectedElement.style.lineHeight = value; break;
+                    case 'fontWeight': this.selectedElement.style.fontWeight = value; break;
+                    case 'direction': this.selectedElement.dir = value; break;
+                    case 'textAlign': this.selectedElement.style.textAlign = value; break;
+                }
+                // persist changes
+                this.saveCurrentCardState();
+            }
+
+            updateControlsFromElement(element) {
+                const style = window.getComputedStyle(element);
+                // fontFamily may be something like "Arial, ...", take first
+                const fontFamily = (element.style.fontFamily || style.fontFamily || 'Arial').split(',')[0].replace(/"/g, '');
+                document.getElementById('font-family').value = fontFamily;
+                document.getElementById('font-size').value = parseInt(style.fontSize) || 16;
+                document.getElementById('text-color').value = this.rgbToHex(style.color);
+                // line-height may be 'normal' or px; convert to number
+                const lh = parseFloat(style.lineHeight) ? parseFloat(style.lineHeight) : parseFloat(element.style.lineHeight) || 1.2;
+                document.getElementById('line-height').value = lh;
+                document.getElementById('font-weight').value = style.fontWeight || element.style.fontWeight || 'normal';
+                document.getElementById('text-direction').value = element.dir || 'ltr';
+                document.querySelectorAll('.alignment-btn').forEach(b => b.classList.remove('active'));
+                const align = (style.textAlign || element.style.textAlign || 'center');
+                document.querySelectorAll('.alignment-btn').forEach(b => { if (b.dataset.align === align) b.classList.add('active'); });
+            }
+
+            rgbToHex(rgb) {
+                let result = rgb.match(/\d+/g);
+                if (!result) return '#000000';
+                return (
+                    '#' +
+                    ((1 << 24) + (parseInt(result[0]) << 16) + (parseInt(result[1]) << 8) + parseInt(result[2]))
+                        .toString(16)
+                        .slice(1)
+                );
+            }
+
+            deleteSelectedText() {
+                if (!this.selectedElement) return;
+                this.selectedElement.remove();
+                this.selectedElement = null;
+                this.hideTextControls();
+                this.saveCurrentCardState();
+            }
+
+            saveCurrentCardState() {
+                if (this.currentCardIndex === -1) return;
+                // collect texts existing in DOM (excluding background img)
+                const texts = [];
+                // get elements in canvas except first child if it's image (bg)
+                this.canvas.querySelectorAll('.text-element').forEach(el => {
+                    texts.push({
+                        id: el.dataset.id || null,
+                        text: el.textContent,
+                        left: el.style.left || '0px',
+                        top: el.style.top || '0px',
+                        fontFamily: el.style.fontFamily || '',
+                        fontSize: el.style.fontSize || '',
+                        color: el.style.color || '',
+                        textAlign: el.style.textAlign || '',
+                        lineHeight: el.style.lineHeight || '',
+                        fontWeight: el.style.fontWeight || '',
+                        dir: el.dir || '',
+                        zIndex: el.style.zIndex || ''
+                    });
+                });
+
+                // ensure cardStates entry exists
+                if (!this.cardStates[this.currentCardIndex]) this.cardStates[this.currentCardIndex] = { bg: null, texts: [] };
+                // also ensure we save bg if present
+                const bgImg = this.canvas.querySelector('img');
+                const bgData = bgImg ? bgImg.src : (this.cardStates[this.currentCardIndex].bg || null);
+                this.cardStates[this.currentCardIndex].bg = bgData;
+                this.cardStates[this.currentCardIndex].texts = texts;
+
+                // also keep cardsArray used for thumbnails in sync
+                this.cardsArray[this.currentCardIndex] = bgData;
+                this.updateCardThumbnails();
+            }
+
+            loadCardState(idx) {
+                // clear canvas (remove bg and all text elements)
+                // remove all children except preview-info maybe (we'll handle)
+                // remove img and .text-element nodes
+                this.canvas.querySelectorAll('img').forEach(i => i.remove());
+                this.canvas.querySelectorAll('.text-element').forEach(t => t.remove());
+
+                const state = this.cardStates[idx];
+                if (!state) return;
+
+                // set bg
+                this.setCardBackgroundFromState(state);
+
+                // recreate text elements
+                (state.texts || []).forEach(t => {
+                    const el = document.createElement('div');
+                    el.className = 'text-element';
+                    el.dataset.id = t.id || ('txt_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
+                    el.textContent = t.text;
+                    el.style.left = t.left || '0px';
+                    el.style.top = t.top || '0px';
+                    if (t.fontFamily) el.style.fontFamily = t.fontFamily;
+                    if (t.fontSize) el.style.fontSize = t.fontSize;
+                    if (t.color) el.style.color = t.color;
+                    if (t.textAlign) el.style.textAlign = t.textAlign;
+                    if (t.lineHeight) el.style.lineHeight = t.lineHeight;
+                    if (t.fontWeight) el.style.fontWeight = t.fontWeight;
+                    if (t.dir) el.dir = t.dir;
+                    if (t.zIndex) el.style.zIndex = t.zIndex;
+                    el.setAttribute('draggable', 'false');
+
+                    this.canvas.appendChild(el);
+                    this.makeDraggable(el);
+                });
+
+                // deselect any selection
+                this.deselectAll();
+            }
+
+            downloadCard() {
+                // Save current state before download
+                if (this.currentCardIndex !== -1) this.saveCurrentCardState();
+
+                // remove selection outlines for screenshot to look neat
+                document.querySelectorAll('.text-element').forEach(el => el.classList.remove('selected'));
+
+                html2canvas(this.canvas, { allowTaint: true, useCORS: true }).then((canvas) => {
+                    const link = document.createElement('a');
+                    link.download = 'wedding_card.png';
+                    link.href = canvas.toDataURL('image/png');
+                    // click link
+                    link.click();
+                }).catch(err => {
+                    console.error('html2canvas error:', err);
+                    alert('Error while generating image. See console for details.');
+                });
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            const editor = new WeddingCardEditor();
+
+            // Optional: preload a blank card to make UI friendlier
+            // If you want an initial blank card, uncomment:
+            // editor.cardStates.push({ bg: null, texts: [] });
+            // editor.currentCardIndex = 0;
+            // editor.updateCardThumbnails();
+        };
+    </script> 
+
+</body>
+
+</html>
